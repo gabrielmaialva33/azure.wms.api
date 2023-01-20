@@ -1,10 +1,49 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from '@/app.module';
 import { Logger } from '@nestjs/common';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+
+import helmet from '@fastify/helmet';
+import compression from '@fastify/compress';
+
+import { AppModule } from '@/app.module';
+import { AppUtils } from '@/core/helpers/app.utils';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter({ ignoreTrailingSlash: true }),
+    { bufferLogs: true },
+  );
+
+  AppUtils.killAppWithGrace(app);
+
+  /**
+   * ------------------------------------------------------
+   * Security
+   * ------------------------------------------------------
+   */
+  await app.register(helmet);
+  await app.register(compression);
+
+  /**
+   * ------------------------------------------------------
+   * Global Config
+   * ------------------------------------------------------
+   */
+  app.enableCors();
+  app.enableShutdownHooks();
+
+  await app
+    .listen(process.env.PORT || 3333, '0.0.0.0')
+    .then(async () =>
+      Logger.log(
+        `Application is running on: ${await app.getUrl()}`,
+        'Bootstrap',
+      ),
+    );
 }
 
-bootstrap().then(() => Logger.log('Application is listening on port 3000'));
+(async () => await bootstrap())();
