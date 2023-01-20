@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 import {
@@ -10,6 +12,7 @@ import compression from '@fastify/compress';
 
 import { AppModule } from '@/app.module';
 import { AppUtils } from '@/core/helpers/app.utils';
+import * as process from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -37,7 +40,7 @@ async function bootstrap() {
   app.enableShutdownHooks();
 
   await app
-    .listen(process.env.PORT || 3333, '0.0.0.0')
+    .listen(process.env.PORT || 3333, process.env.HOST || '0.0.0.0')
     .then(async () =>
       Logger.log(
         `Application is running on: ${await app.getUrl()}`,
