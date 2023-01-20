@@ -28,11 +28,14 @@
     "@nestjs/core": "^9.2.1",
     "@nestjs/platform-express": "^9.2.1",
     "@nestjs/platform-fastify": "^9.2.1",
+    "@willsoto/nestjs-objection": "^8.1.0",
     "dotenv": "^16.0.3",
     "knex": "^2.4.1",
+    "objection": "^3.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.1.1",
     "rxjs": "^7.8.0",
+    "tedious": "^15.1.2",
     "zod": "^3.20.2"
   },
   "devDependencies": {
