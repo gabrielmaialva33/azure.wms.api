@@ -14,7 +14,7 @@ export const ValidateSchema = z.object({
   DB_HOST: z.string().trim().default('localhost'),
   DB_PORT: z.string().trim().default('1433'),
   DB_USERNAME: z.string().trim().default('sa'),
-  DB_PASSWORD: z.string().trim().default('123456'),
+  DB_PASSWORD: z.string().trim().default('Wms@551238'),
   DB_NAME: z.string().trim().default('wms'),
   DB_SSL: z.string().trim().default('false'),
   DB_DEBUG: z
