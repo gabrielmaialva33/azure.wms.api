@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api
+    restart: always
+    ports:
+      - '3000:3333'
+    env_file:
+      - .env
+    environment:
+      PORT: ${PORT}
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
