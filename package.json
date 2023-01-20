@@ -24,13 +24,15 @@
     "@fastify/compress": "^6.2.0",
     "@fastify/helmet": "^10.1.0",
     "@nestjs/common": "^9.2.1",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.2.1",
     "@nestjs/platform-express": "^9.2.1",
     "@nestjs/platform-fastify": "^9.2.1",
     "dotenv": "^16.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^4.1.1",
-    "rxjs": "^7.8.0"
+    "rxjs": "^7.8.0",
+    "zod": "^3.20.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.1.8",
