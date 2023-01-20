@@ -15,9 +15,7 @@ import { database } from '@/core/libs/config/database.config';
       expandVariables: true,
       validationSchema: ValidateSchema,
       validate: validate,
-      validationOptions: {
-        abortEarly: true,
-      },
+      validationOptions: { abortEarly: true },
     }),
   ],
   providers: [ConfigService],
