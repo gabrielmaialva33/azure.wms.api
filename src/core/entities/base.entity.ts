@@ -37,3 +37,5 @@ export class BaseEntity extends Model {
     return json;
   }
 }
+
+export const BaseModel = BaseEntity;
