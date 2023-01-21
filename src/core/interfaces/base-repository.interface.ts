@@ -1,4 +1,4 @@
-import { ModelProps, Modifier, QueryBuilder } from 'objection';
+import { Id, Modifier, QueryBuilder } from 'objection';
 
 import { BaseEntity } from '@/core/entities/base.entity';
 
@@ -20,7 +20,7 @@ export interface IBaseRepository<Entity extends BaseEntity> {
 
   /**
    * @description Get entity by id
-   * @param {string} id
+   * @param {Id} id
    * @param {Modifier<QueryBuilder<BaseEntity>>} modifiers
    * @returns {Promise<BaseEntity>}
    * @memberof IBaseRepository
@@ -28,7 +28,7 @@ export interface IBaseRepository<Entity extends BaseEntity> {
    * const entity = await this.repository.get('1');
    * // returns { id: 1, name: 'John' }
    */
-  get(id: string, modifiers?: Modifier<QueryBuilder<Entity>>): Promise<Entity>;
+  get(id: Id, modifiers?: Modifier<QueryBuilder<Entity>>): Promise<Entity>;
 
   /**
    * @description Create entity
@@ -43,7 +43,7 @@ export interface IBaseRepository<Entity extends BaseEntity> {
 
   /**
    * @description Save entity
-   * @param {BaseEntity} entity
+   * @param {keyof BaseEntity | ColumnRef} id
    * @param {ModelAttributes<BaseEntity>} payload
    * @param {Modifier<QueryBuilder<BaseEntity>>} modifiers
    * @returns {Promise<BaseEntity>}
@@ -53,24 +53,21 @@ export interface IBaseRepository<Entity extends BaseEntity> {
    * // returns { id: 1, name: 'John' }
    */
   save(
-    entity: Entity,
+    id: Id,
     payload: ModelAttributes<Entity>,
     modifiers?: Modifier<QueryBuilder<Entity>>,
   ): Promise<Entity>;
 
   /**
    * @description Destroy entity
-   * @param {BaseEntity} entity
+   * @param {Id} id
    * @param {Modifier<QueryBuilder<BaseEntity>>} modifiers
    * @returns {Promise<void>}
    * @memberof IBaseRepository
    * @example
    * await this.repository.destroy(entity);
    */
-  destroy(
-    entity: Entity,
-    modifiers?: Modifier<QueryBuilder<Entity>>,
-  ): Promise<void>;
+  destroy(id: Id, modifiers?: Modifier<QueryBuilder<Entity>>): Promise<void>;
 
   /**
    * @description Create many entities
@@ -88,34 +85,17 @@ export interface IBaseRepository<Entity extends BaseEntity> {
   ): Promise<Entity[]>;
 
   /**
-   * @description Get entity by key
-   * @param {keyof BaseEntity} key
-   * @param {string | number | boolean} value
+   * @description Get entity by many keys
+   * @param { [k in keyof BaseEntity]?: BaseEntity[k] } args
    * @param {Modifier<QueryBuilder<BaseEntity>>} modifiers
    * @returns {Promise<BaseEntity>}
    * @memberof IBaseRepository
    * @example
-   * const entity = await this.repository.getBy('id', 1);
+   * const entity = await this.repository.getBy({ id: '1' });
    * // returns { id: 1, name: 'John' }
    */
   getBy(
-    key: keyof Entity,
-    value: string | number | boolean,
-    modifiers?: Modifier<QueryBuilder<Entity>>,
-  ): Promise<Entity | undefined>;
-
-  /**
-   * @description Get entity by many keys
-   * @param { [k in keyof BaseEntity]?: BaseEntity[k] } keys
-   @param {Modifier<QueryBuilder<BaseEntity>>} modifiers
-   * @returns {Promise<BaseEntity>}
-   * @memberof IBaseRepository
-   * @example
-   * const entity = await this.repository.getByManyKeys({ id: 1, name: 'John' });
-   * // returns { id: 1, name: 'John' }
-   */
-  getBy(
-    keys: { [k in keyof Entity]?: Entity[k] },
+    args: { [k in keyof Entity]?: Entity[k] },
     modifiers?: Modifier<QueryBuilder<Entity>>,
   ): Promise<Entity | undefined>;
 
@@ -132,7 +112,7 @@ export interface IBaseRepository<Entity extends BaseEntity> {
   pluckBy(
     key: keyof Entity,
     modifiers?: Modifier<QueryBuilder<Entity>>,
-  ): Promise<any>;
+  ): Promise<any[]>;
 
   /**
    * @description Sync relation
@@ -162,6 +142,6 @@ export interface IBaseRepository<Entity extends BaseEntity> {
 export type ModelAttributes<T extends BaseEntity> = { [k in keyof T]?: T[k] };
 
 export interface ListArgs<T extends BaseEntity> {
-  sort?: ModelProps<T>;
-  order?: 'asc' | 'desc';
+  column?: keyof T;
+  order?: 'ASC' | 'DESC';
 }

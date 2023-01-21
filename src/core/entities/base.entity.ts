@@ -8,7 +8,7 @@ export class BaseEntity extends Model {
    * Columns
    * ------------------------------------------------------
    */
-  readonly id!: string;
+  readonly id!: number;
   is_deleted: boolean;
   readonly created_at: string;
   updated_at: string;
