@@ -12,6 +12,22 @@ export class BaseRepository<Entity extends BaseEntity>
 {
   constructor(protected readonly model: typeof BaseEntity) {}
 
+  async get(
+    id: string,
+    modifiers?: Modifier<QueryBuilder<Entity>>,
+  ): Promise<Entity> {
+    try {
+      return this.model.transaction(async (trx) => {
+        const query = this.model.query(trx);
+        if (modifiers) query.modify(modifiers);
+        return query.findById(id) as unknown as Entity;
+      });
+    } catch (err) {
+      Logger.error(err, 'BaseRepository.get');
+      throw err;
+    }
+  }
+
   async create(payload: ModelAttributes<Entity>): Promise<Entity> {
     try {
       return this.model.transaction(
