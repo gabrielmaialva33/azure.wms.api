@@ -1,6 +1,6 @@
 import { BaseEntity } from '@/core/entities/base.entity';
 import { DateTime } from 'luxon';
-import { Pojo } from 'objection';
+import { AnyQueryBuilder, Pojo } from 'objection';
 
 export class ProductEntity extends BaseEntity {
   static tableName = 'products';
@@ -54,7 +54,17 @@ export class ProductEntity extends BaseEntity {
    * Query Scopes
    * ------------------------------------------------------
    */
-  static modifiers = {};
+  static modifiers = {
+    scope_code: (query: AnyQueryBuilder, code: string) =>
+      query.where('code', code),
+    scope_search: (query: AnyQueryBuilder, search: string) => {
+      const { ref } = ProductEntity;
+      query.where(function () {
+        for (const field of ProductEntity.searchFields)
+          this.orWhere(ref(field), 'like', `%${search}%`);
+      });
+    },
+  };
 
   /**
    * ------------------------------------------------------
@@ -116,6 +126,16 @@ export class ProductEntity extends BaseEntity {
       },
     };
   }
+
+  static searchFields = [
+    'code',
+    'description',
+    'color',
+    'component',
+    'brand_code',
+    'receipt',
+    'ean',
+  ];
 
   /**
    * ------------------------------------------------------
