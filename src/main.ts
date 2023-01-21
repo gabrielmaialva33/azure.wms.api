@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import * as process from 'process';
 
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
@@ -12,7 +13,6 @@ import compression from '@fastify/compress';
 
 import { AppModule } from '@/app.module';
 import { AppUtils } from '@/core/helpers/app.utils';
-import * as process from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -38,6 +38,7 @@ async function bootstrap() {
    */
   app.enableCors();
   app.enableShutdownHooks();
+  app.setGlobalPrefix('api');
 
   await app
     .listen(process.env.PORT || 3333, process.env.HOST || '0.0.0.0')
