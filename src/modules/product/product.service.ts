@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { CreateProductDto, UpdateProductDto } from '@/modules/product/dto';
-import { ProductRepository } from '@/modules/product/product.repository';
-import { IProduct } from '@/modules/product/product.interface';
-import { ProductEntity } from '@/modules/product/entities/product.entity';
 import { DateTime } from 'luxon';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+
+import { IProduct } from '@/modules/product/product.interface';
+import { ProductRepository } from '@/modules/product/product.repository';
+import { ProductEntity } from '@/modules/product/entities/product.entity';
+import { CreateProductDto, UpdateProductDto } from '@/modules/product/dto';
 
 @Injectable()
 export class ProductService {

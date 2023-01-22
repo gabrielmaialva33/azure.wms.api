@@ -452,8 +452,8 @@ components:
           example: '123456789'
           description: The ean of the product
         level:
-          type: string
-          example: '1'
+          type: number
+          example: 1
           description: The level of the product
         control_batch:
           type: boolean
@@ -527,7 +527,7 @@ components:
         brand_code: '123456789'
         receipt: '123456789'
         ean: '123456789'
-        level: '1'
+        level: 1
         control_batch: true
         control_batch_receipt: true
         control_batch_storage: true
@@ -605,8 +605,8 @@ components:
           example: '123456789'
           description: The ean of the product
         level:
-          type: string
-          example: '1'
+          type: number
+          example: 1
           description: The level of the product
         control_batch:
           type: boolean
@@ -662,7 +662,7 @@ components:
         brand_code: '123456789'
         receipt: '123456789'
         ean: '123456789'
-        level: '1'
+        level: 1
         control_batch: true
         control_batch_receipt: true
         control_batch_storage: true
@@ -730,8 +730,8 @@ components:
           example: '123456789'
           description: The ean of the product
         level:
-          type: string
-          example: '1'
+          type: number
+          example: 1
           description: The level of the product
         control_batch:
           type: boolean
@@ -787,7 +787,7 @@ components:
         brand_code: '987654321'
         receipt: '987654321'
         ean: '987654321'
-        level: '2'
+        level: 2
         control_batch: false
         control_batch_receipt: false
         control_batch_storage: false

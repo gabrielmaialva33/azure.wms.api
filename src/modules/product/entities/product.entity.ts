@@ -13,7 +13,7 @@ export class ProductEntity extends BaseEntity {
   code: string;
   description: string;
   color: string;
-  grid: number;
+  grid: string;
   quantity: number;
   length: number;
 
@@ -74,22 +74,14 @@ export class ProductEntity extends BaseEntity {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: [
-        'code',
-        'description',
-        'color',
-        'grid',
-        'quantity',
-        'length',
-        'is_active',
-      ],
+      required: ['code', 'description', 'color', 'grid', 'quantity', 'length'],
 
       properties: {
         id: { type: 'integer' },
         code: { type: 'string', minLength: 1, maxLength: 255 },
         description: { type: 'string', minLength: 1, maxLength: 255 },
         color: { type: 'string', minLength: 1, maxLength: 255 },
-        grid: { type: 'integer' },
+        grid: { type: 'string', minLength: 1, maxLength: 255 },
         quantity: { type: 'integer' },
         length: { type: 'integer' },
 
@@ -105,11 +97,7 @@ export class ProductEntity extends BaseEntity {
         control_batch: { type: 'boolean' },
         control_batch_receipt: { type: 'boolean' },
         control_batch_storage: { type: 'boolean' },
-        control_batch_separator: {
-          type: ['string', 'null'],
-          minLength: 1,
-          maxLength: 255,
-        },
+        control_batch_separator: { type: 'boolean' },
         control_batch_conference: { type: 'boolean' },
 
         control_validity: { type: 'boolean' },

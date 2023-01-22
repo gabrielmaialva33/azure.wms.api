@@ -8,7 +8,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string('code').notNullable().unique();
     table.text('description').notNullable();
     table.string('color').notNullable();
-    table.integer('grid').notNullable();
+    table.string('grid').notNullable();
     table.integer('quantity').notNullable();
     table.integer('length').notNullable();
 

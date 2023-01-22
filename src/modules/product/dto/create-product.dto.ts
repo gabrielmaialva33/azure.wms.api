@@ -5,7 +5,7 @@ const ProductSchema = z.object({
   code: z.string().min(1).max(255),
   description: z.string().min(1).max(255),
   color: z.string().min(1).max(255),
-  grid: z.number().int(),
+  grid: z.string().min(1).max(255),
   quantity: z.number().int(),
   length: z.number().int(),
 
