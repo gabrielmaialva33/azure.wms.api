@@ -1,0 +1,823 @@
+_id: spc_76a2cd24195447fc9274273fa00d366c
+type: ApiSpec
+parentId: wrk_2b9433d2a0dd4e1fb8e0b743f74c335f
+modified: 1674353171423
+created: 1674353157844
+fileName: azure-wms-api
+contents: |+
+  openapi: 3.0.3
+  info:
+    version: 1.0.0
+    title: AZURE WMS API
+    description: 'This is documentation for PDA OS API'
+    contact:
+      name: Gabriel Maia
+      email: gabrielmaialva33@gmail.com
+      url: github.com/gabrielmaialva33
+  servers:
+    - url: http://127.0.0.1:3333
+      description: Local server
+    - url: http://127.0.0.1:3000
+      description: Docker server
+
+  tags:
+    - name: Products
+      description: Operations about products
+
+  paths:
+    /api/products/paginate:
+      get:
+        tags:
+          - Products
+        summary: Paginate products
+        description: Paginate all products
+        operationId: paginateProducts
+        parameters:
+          - name: page
+            in: query
+            description: Page for a product
+            required: false
+            schema:
+              type: integer
+              example: 1
+          - name: limit
+            in: query
+            description: Limit for a product
+            required: false
+            schema:
+              type: integer
+              example: 10
+          - name: sort
+            in: query
+            description: Sort for a product
+            required: false
+            schema:
+              type: string
+              example: 'created_at'
+          - name: order
+            in: query
+            description: Order for a product
+            required: false
+            schema:
+              type: string
+              example: 'desc'
+          - name: search
+            in: query
+            description: Search for a product
+            required: false
+            schema:
+              type: string
+              example: 'Product'
+          - name: code
+            in: query
+            description: Code for a product
+            required: false
+            schema:
+              type: string
+              example: '123456'
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+    /api/products:
+      get:
+        tags:
+          - Products
+        summary: Get all products
+        description: Get all products
+        operationId: getProducts
+        parameters:
+          - name: sort
+            in: query
+            description: Sort for a product
+            required: false
+            schema:
+              type: string
+              example: 'created_at'
+          - name: order
+            in: query
+            description: Order for a product
+            required: false
+            schema:
+              type: string
+              example: 'desc'
+          - name: search
+            in: query
+            description: Search for a product
+            required: false
+            schema:
+              type: string
+              example: 'Product'
+          - name: code
+            in: query
+            description: Code for a product
+            required: false
+            schema:
+              type: string
+              example: '123456'
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      post:
+        tags:
+          - Products
+        summary: Create a product
+        description: Create a product
+        operationId: createProduct
+        requestBody:
+          description: Create a product
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateProduct'
+        responses:
+          '201':
+            description: Created
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Product'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+    /api/products/{productId}:
+      get:
+        tags:
+          - Products
+        summary: Get a product
+        description: Get a product
+        operationId: getProduct
+        parameters:
+          - name: productId
+            in: path
+            description: ID of product to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Product'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      put:
+        tags:
+          - Products
+        summary: Update a product
+        description: Update a product
+        operationId: updateProduct
+        parameters:
+          - name: productId
+            in: path
+            description: ID of product to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        requestBody:
+          description: Update a product
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EditProduct'
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Product'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+      delete:
+        tags:
+          - Products
+        summary: Delete a product
+        description: Delete a product
+        operationId: deleteProduct
+        parameters:
+          - name: productId
+            in: path
+            description: ID of product to return
+            required: true
+            schema:
+              type: integer
+              format: int64
+        responses:
+          '204':
+            description: No Content
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '401':
+            description: Unauthorized
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '403':
+            description: Forbidden
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+          '500':
+            description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Error'
+
+  components:
+    schemas:
+      Product:
+        description: The product schema
+        type: object
+        properties:
+          id:
+            type: integer
+            description: The auto-generated id of the product
+          code:
+            type: string
+            example: '123456789'
+            description: The code of the product
+          description:
+            type: string
+            example: Product description
+            description: The description of the product
+          color:
+            type: string
+            example: Red
+            description: The color of the product
+          grid:
+            type: string
+            example: 1x1
+            description: The grid of the product
+          quantity:
+            type: integer
+            example: 10
+            description: The quantity of the product
+          length:
+            type: number
+            example: 10
+            description: The length of the product
+          width:
+            type: number
+            example: 10
+            description: The width of the product
+          height:
+            type: number
+            example: 10
+            description: The height of the product
+          depth:
+            type: number
+            example: 10
+            description: The depth of the product
+          component:
+            type: string
+            example: '1'
+            description: The component of the product
+          brand_code:
+            type: string
+            example: '123456789'
+            description: The brand code of the product
+          receipt:
+            type: string
+            example: '123456789'
+            description: The receipt of the product
+          ean:
+            type: string
+            example: '123456789'
+            description: The ean of the product
+          level:
+            type: string
+            example: '1'
+            description: The level of the product
+          control_batch:
+            type: boolean
+            example: true
+            description: The control batch of the product
+          control_batch_receipt:
+            type: boolean
+            example: true
+            description: The control batch receipt of the product
+          control_batch_storage:
+            type: boolean
+            example: true
+            description: The control batch storage of the product
+          control_batch_separator:
+            type: boolean
+            example: true
+            description: The control batch separator of the product
+          control_batch_conference:
+            type: boolean
+            example: true
+            description: The control batch conference of the product
+          control_validity:
+            type: boolean
+            example: true
+            description: The control validity of the product
+          control_validity_receipt:
+            type: boolean
+            example: true
+            description: The control validity receipt of the product
+          control_validity_storage:
+            type: boolean
+            example: true
+            description: The control validity storage of the product
+          control_validity_separator:
+            type: boolean
+            example: true
+            description: The control validity separator of the product
+          control_validity_conference:
+            type: boolean
+            example: true
+            description: The control validity conference of the product
+          is_active:
+            type: boolean
+            example: true
+            description: The is active of the product
+          created_at:
+            type: string
+            description: The date of the product creation
+          updated_at:
+            type: string
+            description: The date of the product update
+        required:
+          - code
+          - description
+          - color
+          - grid
+          - quantity
+          - length
+        example:
+          id: 1
+          code: '123456789'
+          description: Product description
+          color: Red
+          grid: 1x1
+          quantity: 10
+          length: 10
+          width: 10
+          height: 10
+          depth: 10
+          component: '1'
+          brand_code: '123456789'
+          receipt: '123456789'
+          ean: '123456789'
+          level: '1'
+          control_batch: true
+          control_batch_receipt: true
+          control_batch_storage: true
+          control_batch_separator: true
+          control_batch_conference: true
+          control_validity: true
+          control_validity_receipt: true
+          control_validity_storage: true
+          control_validity_separator: true
+          control_validity_conference: true
+          is_active: true
+          created_at: 2020-10-10T00:00:00.000Z
+          updated_at: 2020-10-10T00:00:00.000Z
+      CreateProduct:
+        description: The create product schema
+        type: object
+        required:
+          - code
+          - description
+          - color
+          - grid
+          - quantity
+          - length
+        properties:
+          code:
+            type: string
+            example: '123456789'
+            description: The code of the product
+          description:
+            type: string
+            example: Product description
+            description: The description of the product
+          color:
+            type: string
+            example: Red
+            description: The color of the product
+          grid:
+            type: string
+            example: 1x1
+            description: The grid of the product
+          quantity:
+            type: integer
+            example: 10
+            description: The quantity of the product
+          length:
+            type: number
+            example: 10
+            description: The length of the product
+          width:
+            type: number
+            example: 10
+            description: The width of the product
+          height:
+            type: number
+            example: 10
+            description: The height of the product
+          depth:
+            type: number
+            example: 10
+            description: The depth of the product
+          component:
+            type: string
+            example: '1'
+            description: The component of the product
+          brand_code:
+            type: string
+            example: '123456789'
+            description: The brand code of the product
+          receipt:
+            type: string
+            example: '123456789'
+            description: The receipt of the product
+          ean:
+            type: string
+            example: '123456789'
+            description: The ean of the product
+          level:
+            type: string
+            example: '1'
+            description: The level of the product
+          control_batch:
+            type: boolean
+            example: true
+            description: The control batch of the product
+          control_batch_receipt:
+            type: boolean
+            example: true
+            description: The control batch receipt of the product
+          control_batch_storage:
+            type: boolean
+            example: true
+            description: The control batch storage of the product
+          control_batch_separator:
+            type: boolean
+            example: true
+            description: The control batch separator of the product
+          control_batch_conference:
+            type: boolean
+            example: true
+            description: The control batch conference of the product
+          control_validity:
+            type: boolean
+            example: true
+            description: The control validity of the product
+          control_validity_receipt:
+            type: boolean
+            example: true
+            description: The control validity receipt of the product
+          control_validity_storage:
+            type: boolean
+            example: true
+            description: The control validity storage of the product
+          control_validity_separator:
+            type: boolean
+            example: true
+            description: The control validity separator of the product
+          control_validity_conference:
+            type: boolean
+            example: true
+            description: The control validity conference of the product
+        example:
+          code: '123456789'
+          description: Product description
+          color: Red
+          grid: 1x1
+          quantity: 10
+          length: 10
+          width: 10
+          height: 10
+          depth: 10
+          component: '1'
+          brand_code: '123456789'
+          receipt: '123456789'
+          ean: '123456789'
+          level: '1'
+          control_batch: true
+          control_batch_receipt: true
+          control_batch_storage: true
+          control_batch_separator: true
+          control_batch_conference: true
+          control_validity: true
+          control_validity_receipt: true
+          control_validity_storage: true
+          control_validity_separator: true
+          control_validity_conference: true
+      EditProduct:
+        description: The edit product schema
+        type: object
+        properties:
+          code:
+            type: string
+            example: '987654321'
+            description: The code of the product
+          description:
+            type: string
+            example: Product description
+            description: The description of the product
+          color:
+            type: string
+            example: Red
+            description: The color of the product
+          grid:
+            type: string
+            example: 1x1
+            description: The grid of the product
+          quantity:
+            type: integer
+            example: 10
+            description: The quantity of the product
+          length:
+            type: number
+            example: 10
+            description: The length of the product
+          width:
+            type: number
+            example: 10
+            description: The width of the product
+          height:
+            type: number
+            example: 10
+            description: The height of the product
+          depth:
+            type: number
+            example: 10
+            description: The depth of the product
+          component:
+            type: string
+            example: '1'
+            description: The component of the product
+          brand_code:
+            type: string
+            example: '123456789'
+            description: The brand code of the product
+          receipt:
+            type: string
+            example: '123456789'
+            description: The receipt of the product
+          ean:
+            type: string
+            example: '123456789'
+            description: The ean of the product
+          level:
+            type: string
+            example: '1'
+            description: The level of the product
+          control_batch:
+            type: boolean
+            example: true
+            description: The control batch of the product
+          control_batch_receipt:
+            type: boolean
+            example: true
+            description: The control batch receipt of the product
+          control_batch_storage:
+            type: boolean
+            example: true
+            description: The control batch storage of the product
+          control_batch_separator:
+            type: boolean
+            example: true
+            description: The control batch separator of the product
+          control_batch_conference:
+            type: boolean
+            example: true
+            description: The control batch conference of the product
+          control_validity:
+            type: boolean
+            example: true
+            description: The control validity of the product
+          control_validity_receipt:
+            type: boolean
+            example: true
+            description: The control validity receipt of the product
+          control_validity_storage:
+            type: boolean
+            example: true
+            description: The control validity storage of the product
+          control_validity_separator:
+            type: boolean
+            example: true
+            description: The control validity separator of the product
+          control_validity_conference:
+            type: boolean
+            example: true
+            description: The control validity conference of the product
+        example:
+          code: '987654321'
+          description: Product description
+          color: Blue
+          grid: 2x2
+          quantity: 20
+          length: 20
+          width: 20
+          height: 20
+          depth: 20
+          component: '2'
+          brand_code: '987654321'
+          receipt: '987654321'
+          ean: '987654321'
+          level: '2'
+          control_batch: false
+          control_batch_receipt: false
+          control_batch_storage: false
+          control_batch_separator: false
+          control_batch_conference: false
+          control_validity: false
+          control_validity_receipt: false
+          control_validity_storage: false
+          control_validity_separator: false
+          control_validity_conference: false
+
+      Error:
+        description: The error schema
+        type: object
+        properties:
+          statusCode:
+            type: number
+            example: 404
+          message:
+            type: string
+            example: Cannot GET /
+          error:
+            type: string
+            example: Not Found
+
+contentType: yaml
