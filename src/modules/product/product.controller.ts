@@ -27,7 +27,7 @@ export class ProductController {
   list(
     @Query('code') code: string,
     @Query('search') search: string,
-    @Query('column') sort: ModelProps<ProductEntity>,
+    @Query('sort') sort: ModelProps<ProductEntity>,
     @Query('order') order: 'asc' | 'desc',
   ) {
     return this.productService.list({

@@ -23,7 +23,7 @@ export class BaseRepository<Entity extends BaseEntity>
         if (modifiers) query.modify(modifiers);
         if (args.sort && args.order)
           query.orderBy(String(args.sort), args.order);
-        query.orderBy('created_at', 'desc');
+        else query.orderBy('created_at', 'desc');
         return query as unknown as Entity[];
       });
     } catch (err) {

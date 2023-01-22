@@ -1,8 +1,18 @@
 import { z } from '@/core/lib/zod/z';
-import { CreateZodDto } from '@/core/lib/zod';
+import { CreateZodDto, isUnique } from '@/core/lib/zod';
+import { ProductEntity } from '@/modules/product/entities/product.entity';
 
-const ProductSchema = z.object({
-  code: z.string().min(1).max(255),
+export const NewProductSchema = z.object({
+  code: z
+    .string()
+    .min(1)
+    .max(255)
+    .refine(
+      async (v) => isUnique<ProductEntity>(ProductEntity, 'code', v),
+      (v) => ({
+        message: `Product code ${v} already exists`,
+      }),
+    ),
   description: z.string().min(1).max(255),
   color: z.string().min(1).max(255),
   grid: z.string().min(1).max(255),
@@ -33,4 +43,4 @@ const ProductSchema = z.object({
   is_active: z.boolean().optional(),
 });
 
-export class CreateProductDto extends CreateZodDto(ProductSchema) {}
+export class CreateProductDto extends CreateZodDto(NewProductSchema) {}

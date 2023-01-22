@@ -1,6 +1,8 @@
-import { BaseEntity } from '@/core/entities/base.entity';
 import { DateTime } from 'luxon';
 import { AnyQueryBuilder, Pojo } from 'objection';
+import { omit } from 'helper-fns';
+
+import { BaseEntity } from '@/core/entities/base.entity';
 
 export class ProductEntity extends BaseEntity {
   static tableName = 'products';
@@ -131,6 +133,6 @@ export class ProductEntity extends BaseEntity {
    */
   $formatJson(json: Pojo) {
     json = super.$formatJson(json);
-    return json;
+    return omit(json, ['is_deleted', 'created_at', 'updated_at', 'deleted_at']);
   }
 }

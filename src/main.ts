@@ -11,8 +11,10 @@ import {
 import helmet from '@fastify/helmet';
 import compression from '@fastify/compress';
 
-import { AppModule } from '@/app.module';
 import { AppUtils } from '@/core/helpers/app.utils';
+import { ZodValidationPipe } from '@/core/lib/zod';
+
+import { AppModule } from '@/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -39,6 +41,8 @@ async function bootstrap() {
   app.enableCors();
   app.enableShutdownHooks();
   app.setGlobalPrefix('api');
+
+  app.useGlobalPipes(new ZodValidationPipe());
 
   await app
     .listen(process.env.PORT || 3333, process.env.HOST || '0.0.0.0')
