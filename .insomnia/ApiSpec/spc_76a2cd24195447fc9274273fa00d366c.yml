@@ -1,7 +1,7 @@
 _id: spc_76a2cd24195447fc9274273fa00d366c
 type: ApiSpec
 parentId: wrk_2b9433d2a0dd4e1fb8e0b743f74c335f
-modified: 1674353171423
+modified: 1674356532419
 created: 1674353157844
 fileName: azure-wms-api
 contents: |+
@@ -40,7 +40,7 @@ contents: |+
             schema:
               type: integer
               example: 1
-          - name: limit
+          - name: per_page
             in: query
             description: Limit for a product
             required: false
@@ -459,8 +459,8 @@ contents: |+
             example: '123456789'
             description: The ean of the product
           level:
-            type: string
-            example: '1'
+            type: number
+            example: 1
             description: The level of the product
           control_batch:
             type: boolean
@@ -534,7 +534,7 @@ contents: |+
           brand_code: '123456789'
           receipt: '123456789'
           ean: '123456789'
-          level: '1'
+          level: 1
           control_batch: true
           control_batch_receipt: true
           control_batch_storage: true
@@ -612,8 +612,8 @@ contents: |+
             example: '123456789'
             description: The ean of the product
           level:
-            type: string
-            example: '1'
+            type: number
+            example: 1
             description: The level of the product
           control_batch:
             type: boolean
@@ -669,7 +669,7 @@ contents: |+
           brand_code: '123456789'
           receipt: '123456789'
           ean: '123456789'
-          level: '1'
+          level: 1
           control_batch: true
           control_batch_receipt: true
           control_batch_storage: true
@@ -737,8 +737,8 @@ contents: |+
             example: '123456789'
             description: The ean of the product
           level:
-            type: string
-            example: '1'
+            type: number
+            example: 1
             description: The level of the product
           control_batch:
             type: boolean
@@ -794,7 +794,7 @@ contents: |+
           brand_code: '987654321'
           receipt: '987654321'
           ean: '987654321'
-          level: '2'
+          level: 2
           control_batch: false
           control_batch_receipt: false
           control_batch_storage: false

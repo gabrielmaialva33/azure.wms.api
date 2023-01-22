@@ -1,0 +1,18 @@
+_id: env_env_16ff19d76ead525579efab2b1d047c124a13a62a_sub__07434f86
+type: Environment
+parentId: env_16ff19d76ead525579efab2b1d047c124a13a62a
+modified: 1674353383254
+created: 1674353236836
+name: Docker server
+data:
+  scheme: http
+  base_path: ""
+  host: 127.0.0.1:3000
+dataPropertyOrder:
+  "&":
+    - scheme
+    - base_path
+    - host
+color: "#0b21cb"
+isPrivate: false
+metaSortKey: 1674353236836
