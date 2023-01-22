@@ -6,10 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 
 import { CreateProductDto, UpdateProductDto } from '@/modules/product/dto';
 import { ProductService } from '@/modules/product/product.service';
+import { ModelProps } from 'objection';
+import { ProductEntity } from '@/modules/product/entities/product.entity';
 
 @Controller('products')
 export class ProductController {
@@ -21,8 +24,18 @@ export class ProductController {
   }
 
   @Get()
-  list() {
-    return this.productService.list();
+  list(
+    @Query('code') code: string,
+    @Query('search') search: string,
+    @Query('column') sort: ModelProps<ProductEntity>,
+    @Query('order') order: 'asc' | 'desc',
+  ) {
+    return this.productService.list({
+      code,
+      search,
+      sort,
+      order,
+    });
   }
 
   @Get(':id')

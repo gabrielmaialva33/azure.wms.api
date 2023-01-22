@@ -1,4 +1,4 @@
-import { Id, Modifier, QueryBuilder } from 'objection';
+import { Id, ModelProps, Modifier, QueryBuilder } from 'objection';
 
 import { BaseEntity } from '@/core/entities/base.entity';
 
@@ -14,7 +14,7 @@ export interface IBaseRepository<Entity extends BaseEntity> {
    * // returns [{ id: 1, name: 'John' }, { id: 2, name: 'Doe' }]
    */
   list(
-    args: ListArgs<Entity>,
+    args?: ListArgs<Entity>,
     modifiers?: Modifier<QueryBuilder<Entity>>,
   ): Promise<Entity[]>;
 
@@ -142,6 +142,6 @@ export interface IBaseRepository<Entity extends BaseEntity> {
 export type ModelAttributes<T extends BaseEntity> = { [k in keyof T]?: T[k] };
 
 export interface ListArgs<T extends BaseEntity> {
-  column?: keyof T;
-  order?: 'ASC' | 'DESC';
+  sort?: ModelProps<T>;
+  order?: 'asc' | 'desc';
 }

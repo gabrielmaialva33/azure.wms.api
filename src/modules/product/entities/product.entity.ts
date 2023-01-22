@@ -131,10 +131,9 @@ export class ProductEntity extends BaseEntity {
     'code',
     'description',
     'color',
-    'component',
-    'brand_code',
-    'receipt',
-    'ean',
+    'grid',
+    'quantity',
+    'length',
   ];
 
   /**

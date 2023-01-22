@@ -14,14 +14,15 @@ export class BaseRepository<Entity extends BaseEntity>
   constructor(protected readonly model: typeof BaseEntity) {}
 
   async list(
-    { column, order }: ListArgs<Entity>,
+    args?: ListArgs<Entity>,
     modifiers?: Modifier<QueryBuilder<Entity>>,
   ): Promise<Entity[]> {
     try {
       return this.model.transaction(async (trx) => {
         const query = this.model.query(trx);
         if (modifiers) query.modify(modifiers);
-        if (column && order) query.orderBy(String(column), order);
+        if (args.sort && args.order)
+          query.orderBy(String(args.sort), args.order);
         query.orderBy('created_at', 'desc');
         return query as unknown as Entity[];
       });
