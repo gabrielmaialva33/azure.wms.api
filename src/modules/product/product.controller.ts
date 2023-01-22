@@ -19,8 +19,22 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get('paginate')
-  paginate() {
-    return this.productService.paginate();
+  paginate(
+    @Query('page') page: number,
+    @Query('per_page') per_page: number,
+    @Query('code') code: string,
+    @Query('search') search: string,
+    @Query('sort') sort: ModelProps<ProductEntity>,
+    @Query('order') order: 'asc' | 'desc',
+  ) {
+    return this.productService.paginate({
+      page,
+      per_page,
+      code,
+      search,
+      sort,
+      order,
+    });
   }
 
   @Get()
