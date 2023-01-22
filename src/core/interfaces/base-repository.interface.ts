@@ -3,6 +3,11 @@ import { Id, ModelProps, Modifier, QueryBuilder } from 'objection';
 import { BaseEntity } from '@/core/entities/base.entity';
 
 export interface IBaseRepository<Entity extends BaseEntity> {
+  paginate(
+    args?: ListArgs<Entity>,
+    modifiers?: Modifier<QueryBuilder<Entity>>,
+  ): Promise<{ data: Entity[]; total: number }>;
+
   /**
    * @description List all entities
    * @param {ListArgs<BaseEntity>} args
@@ -144,4 +149,9 @@ export type ModelAttributes<T extends BaseEntity> = { [k in keyof T]?: T[k] };
 export interface ListArgs<T extends BaseEntity> {
   sort?: ModelProps<T>;
   order?: 'asc' | 'desc';
+}
+
+export interface PaginateArgs<T extends BaseEntity> extends ListArgs<T> {
+  page?: number;
+  per_page?: number;
 }

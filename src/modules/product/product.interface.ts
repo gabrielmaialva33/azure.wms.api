@@ -13,4 +13,9 @@ export namespace IProduct {
     code?: string;
     search?: string;
   }
+
+  export interface PaginateArgs extends ListArgs {
+    page?: number;
+    per_page?: number;
+  }
 }

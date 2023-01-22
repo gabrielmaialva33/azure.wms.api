@@ -4,6 +4,7 @@ import {
   IBaseRepository,
   ListArgs,
   ModelAttributes,
+  PaginateArgs,
 } from '@/core/interfaces/base-repository.interface';
 import { BaseEntity } from '@/core/entities/base.entity';
 import { HttpException, HttpStatus, Logger } from '@nestjs/common';
@@ -13,17 +14,49 @@ export class BaseRepository<Entity extends BaseEntity>
 {
   constructor(protected readonly model: typeof BaseEntity) {}
 
+  async paginate(
+    args?: PaginateArgs<Entity>,
+    modifiers?: Modifier<QueryBuilder<Entity>>,
+  ): Promise<{ data: Entity[]; total: number }> {
+    try {
+      return this.model.transaction(async (trx) => {
+        const query = this.model.query(trx);
+        if (modifiers) query.modify(modifiers);
+
+        if (args) {
+          if (args.sort && args.order)
+            query.orderBy(String(args.sort), args.order);
+          else query.orderBy('created_at', 'desc');
+
+          if (args.page && args.per_page)
+            query.page(args.page - 1, args.per_page);
+          else query.page(0, 10);
+        }
+
+        const [data, total] = await Promise.all([
+          query as unknown as any,
+          query.resultSize(),
+        ]).then(([{ results, total }]) => [results, total]);
+
+        return { total, data: data as Entity[] };
+      });
+    } catch (err) {
+      Logger.error(err, 'BaseRepository.paginate');
+      throw new HttpException(err, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   async list(
     args?: ListArgs<Entity>,
     modifiers?: Modifier<QueryBuilder<Entity>>,
   ): Promise<Entity[]> {
     try {
       return this.model.transaction(async (trx) => {
-        const query = this.model.query(trx);
+        const query = this.model.query(trx).whereNot('is_deleted', true);
         if (modifiers) query.modify(modifiers);
         if (args.sort && args.order)
           query.orderBy(String(args.sort), args.order);
-        query.orderBy('created_at', 'desc');
+        else query.orderBy('created_at', 'desc');
         return query as unknown as Entity[];
       });
     } catch (err) {
@@ -38,7 +71,7 @@ export class BaseRepository<Entity extends BaseEntity>
   ): Promise<Entity> {
     try {
       return this.model.transaction(async (trx) => {
-        const query = this.model.query(trx);
+        const query = this.model.query(trx).whereNot('is_deleted', true);
         if (modifiers) query.modify(modifiers);
         return query.findById(id) as unknown as Entity;
       });
@@ -54,7 +87,7 @@ export class BaseRepository<Entity extends BaseEntity>
   ): Promise<Entity> {
     try {
       return this.model.transaction(async (trx) => {
-        const query = this.model.query(trx);
+        const query = this.model.query(trx).whereNot('is_deleted', true);
         if (modifiers) query.modify(modifiers);
         return query.findOne(args) as unknown as Entity;
       });
@@ -131,7 +164,10 @@ export class BaseRepository<Entity extends BaseEntity>
   ): Promise<any[]> {
     try {
       return this.model.transaction(async (trx) => {
-        const query = this.model.query(trx).select(key);
+        const query = this.model
+          .query(trx)
+          .select(key)
+          .whereNot('is_deleted', true);
         if (modifiers) query.modify(modifiers);
         return query as unknown as any[];
       });
