@@ -36,7 +36,7 @@
     "@willsoto/nestjs-objection": "^8.1.0",
     "dotenv": "^16.0.3",
     "helper-fns": "^2.5.26",
-    "knex": "^2.4.1",
+    "knex": "^2.4.2",
     "luxon": "^3.2.1",
     "nestjs-pino": "^3.1.2",
     "objection": "^3.0.1",
