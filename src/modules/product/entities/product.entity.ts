@@ -58,12 +58,11 @@ export class ProductEntity extends BaseEntity {
    */
   static modifiers = {
     scope_code: (query: AnyQueryBuilder, code: string) =>
-      query.where('code', code),
+      query.where(ProductEntity.ref('code'), code),
     scope_search: (query: AnyQueryBuilder, search: string) => {
-      const { ref } = ProductEntity;
       query.where(function () {
         for (const field of ProductEntity.searchFields)
-          this.orWhere(ref(field), 'like', `%${search}%`);
+          this.orWhere(ProductEntity.ref(field), 'like', `%${search}%`);
       });
     },
   };
